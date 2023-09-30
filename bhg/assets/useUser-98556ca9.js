@@ -1,0 +1,1 @@
+import{ar as u,ak as a,u as i}from"./index-766a4c77.js";function g(){const o=u(),{token:t,roles:s,adminEmail:e}=a(o),r=i();return{token:t,roles:s,adminEmail:e,setUserInfo:n=>o.login(n),loginOut:()=>{o.logout(),r.push({path:"/login"})}}}export{g as u};
