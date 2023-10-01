@@ -1,0 +1,1 @@
+import{al as u,s as a,a as l}from"./index-7e5bc782.js";function g(){const o=u(),{token:s,roles:t,adminEmail:e}=a(o),n=l();return{token:s,roles:t,adminEmail:e,setUserInfo:r=>o.login(r),loginOut:()=>{o.logout(),n.push({path:"/login"})}}}export{g as u};
