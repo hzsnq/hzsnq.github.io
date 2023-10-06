@@ -1,0 +1,1 @@
+import{_ as t,b as n,g as o,i as e}from"./index-298568e1.js";const s={},c=e("p",{style:{"text-align":"center","font-size":"140px","margin-bottom":"50px"}},"404",-1),_=e("p",{style:{"text-align":"center","font-size":"40px"}},"未找到你想要的页面",-1),r=[c,_];function a(i,l){return n(),o("div",null,r)}const d=t(s,[["render",a]]);export{d as default};
