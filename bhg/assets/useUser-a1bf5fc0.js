@@ -1,1 +1,0 @@
-import{aJ as u,s as i,a as c}from"./index-53be2c6b.js";import{a as l}from"./index-62d2fc31.js";function U(){const o=u(),{token:s,roles:t,adminEmail:r}=i(o),n=c();return{token:s,roles:t,adminEmail:r,setUserInfo:e=>o.login(e),loginOut:async()=>{const[e,a]=await l.logout({});!e&&a&&(o.logout(),localStorage.removeItem("g-recaptcha-response"),n.push({path:"/login"}))}}}export{U as u};
