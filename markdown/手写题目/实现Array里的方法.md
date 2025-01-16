@@ -2,7 +2,7 @@
 
 ## reduce
 
-\`\`\`js
+```js
 Array.prototype.MyReduce = function (callback, initialValue) {
   let prev = initialValue || this[0]
   for (let i = prev ? 1 : 0; i < this.length; i++) {
@@ -10,11 +10,11 @@ Array.prototype.MyReduce = function (callback, initialValue) {
   }
   return prev
 }
-\`\`\`
+```
 
 ## reduceRight
 
-\`\`\`js
+```js
 Array.prototype.MyReduceRight = function (callback, initialValue) {
   let prev = initialValue
   let startIndex = this.length - 1
@@ -26,4 +26,4 @@ Array.prototype.MyReduceRight = function (callback, initialValue) {
   }
   return prev
 }
-\`\`\`
+```

@@ -14,7 +14,7 @@
 
 - 状态修改后就不能在修改了，所以在修改之前必须先判断当前状态是否为pending状态，resolve 函数接收的值会保存在Value 中，reject 函数接收的值讲保存在 reason中
 
-\`\`\`js
+```js
 const PENDING = 'pending'
 const FULFILLED = 'fulfilled'
 const REJECTED = 'rejected'
@@ -55,14 +55,14 @@ class MyPromise {
         })
     }
 }
-\`\`\`
+```
 
 ### then
 - promise 实例对象建好后可以调用 then 方法，说明then是一个实例方法。而且 then 方法可以链式调用，说明他很方法返回一个 promise 实例(原生Promise不能自己返回自己),所以我们需要进行判断
 - then 方法接收两个参数 then(resolveCallback, rejectCallback)
 - resolveCallback , rejectCallback 可以是一个函数(val)=> null | promise 或者null | undefined ，这里我们需要处理他们没有默认值的情况
 
-\`\`\`js
+```js
 class MyPromise {
 
     //...前面的代码
@@ -125,18 +125,18 @@ class MyPromise {
         }
     }
 }
-\`\`\`
+```
 
 ### catch
 - catch 是一个实例方法，用于处理 Promise 被拒绝的情况。
 - 它接受一个 onRejected 回调函数作为参数，当 Promise 被拒绝时，将调用该函数。
 - catch 返回一个新的 Promise 对象，如果 onRejected 回调函数返回的是一个值或新的 Promise，那么返回的 Promise 将解析为该值或新的 Promise 的结果。
 
-\`\`\`js
+```js
     catch(fn) {
         return this.then(null, fn)
     }
-\`\`\`
+```
 
 ### resolve，reject
 
@@ -145,32 +145,32 @@ class MyPromise {
 - 如果传递给 resolve 的参数是一个 Promise 实例，返回的 Promise 将跟随该实例的最终状态（解析或拒绝）。
 - 如果参数是一个 thenable 对象（即具有 then 方法的对象），返回的 Promise 将等待 thenable 被解析或拒绝，并相应地解析或拒绝。
 
-\`\`\`js
+```js
     static resolve(value) {
         if (value instanceof MyPromise) return value
         return new MyPromise((resolve, reject) => {
             resolve(value)
         })
     }
-\`\`\`
+```
 
 reject同理
 
-\`\`\`js
+```js
     static reject(reason) {
         if (value instanceof MyPromise) return reason
         return new MyPromise((resolve, reject) => {
             reject(reason)
         })
     }
-\`\`\`
+```
 ### finally
 
 - finally 是一个实例方法，无论 Promise 最终是解析还是拒绝，都会执行 onFinally 回调函数。
 - finally 返回一个新的 Promise 对象，解析或拒绝的结果与原 Promise 相同。
 - finally 方法常用于清理工作，如关闭数据库连接、释放资源等。
 
-\`\`\`js
+```js
     finally(callback) {
         return this.then((value) => {
             return MyPromise.resolve(callback()).then(() => value)
@@ -180,14 +180,14 @@ reject同理
             })
         })
     }
-\`\`\`
+```
 
 ### all
 - all 是一个静态方法，它接受一个 Promise 数组作为参数。
 - 只有当数组中的所有 Promise 都成功解析时，all 返回的 Promise 才会解析，并且解析值为一个数组，包含所有 Promise 的解析值。
 - 如果数组中的任何一个 Promise 失败，all 返回的 Promise 将立即拒绝，拒绝原因为第一个失败的 Promise 的拒绝原因。
 
-\`\`\`js
+```js
     static all(promiseArr) {
         let result = []
         let count = 0
@@ -227,7 +227,7 @@ reject同理
             }
         })
     }
-\`\`\`
+```
 
 ### race
 
@@ -236,7 +236,7 @@ reject同理
 - 如果数组中任何一个 Promise 解析，race 返回的 Promise 将解析，并以该 Promise 的解析值作为自己的解析值。
 - 如果任何一个 Promise 拒绝，race 返回的 Promise 将拒绝，并以该 Promise 的拒绝原因作为自己的拒绝原因。
 
-\`\`\`js
+```js
     static race(promiseArr) {
         let len = promiseArr.length
         return new MyPromise((resolve, reject) => {
@@ -249,7 +249,7 @@ reject同理
             }
         })
     }
-\`\`\`
+```
 
 ### allSettled
 
@@ -258,7 +258,7 @@ reject同理
 - allSettled 返回的 Promise 解析后，结果是一个数组，每个元素是一个对象，包含 status（值为 "fulfilled" 或 "rejected"）和 value 或 reason。
 - 这个数组的顺序与输入的可迭代对象一致，无论 Promise 是解析还是拒绝。
 
-\`\`\`js
+```js
     static allSettled(promiseArr) {
         let result = []
         let count = 0
@@ -277,7 +277,7 @@ reject同理
             }
         })
     }
-\`\`\`
+```
 
 ## 拓展思考
 
@@ -287,7 +287,7 @@ reject同理
 
 Promise.race()方法可以用来竞争 Promise 可以借助这个特性 自己包装一个 空的 Promise 与要发起的 Promise 来实现
 
-\`\`\`js
+```js
     static abort(promise) {
         let obj = {}
 
@@ -299,7 +299,7 @@ Promise.race()方法可以用来竞争 Promise 可以借助这个特性 自己�
         obj.promise = MyPromise.race([p, promise])
         return obj
     }
-\`\`\`
+```
 
 ### AbortPromise
 
@@ -307,7 +307,7 @@ Promise.race()方法可以用来竞争 Promise 可以借助这个特性 自己�
 
 ## 完整代码
 
-\`\`\`js
+```js
 const PENDING = 'pending'
 const FULFILLED = 'fulfilled'
 const REJECTED = 'rejected'
@@ -619,4 +619,4 @@ async function testPromise() {
 
 testPromise()
 
-\`\`\`
+```

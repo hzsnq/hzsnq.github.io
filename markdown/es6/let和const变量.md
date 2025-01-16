@@ -6,55 +6,55 @@
 
 注意：顶层对象，在浏览器环境指的是 \`window\`对象，在\`Node\`指的是global对象。
 
-\`\`\`js
+```js
 var a = 10
 console.log(window.a) // 10
-\`\`\`
+```
 
 使用\`var\`声明的变量存在变量提升的情况
 
-\`\`\`js
+```js
 console.log(a) // undefined
 var a = 10
-\`\`\`
+```
 
 在编译阶段，编译器会将其变成以下执行
 
-\`\`\`js
+```js
 var a
 console.log(a) // undefined
 a = 10
-\`\`\`
+```
 
 使用\`var\`，我们能够对一个变量进行多次声明，后面声明的变量会覆盖前面变量声明
 
-\`\`\`js
+```js
 var a = 10
 var a = 20
 console.log(a) // 20
-\`\`\`
+```
 
 在函数中使用\`var\`声明变量时，该变量是局部的
 
-\`\`\`js
+```js
 var a = 10
 function change() {
   var a = 20
 }
 change()
 console.log(a) //10
-\`\`\`
+```
 
 在函数中不使用\`var\`，该变量是全局的
 
-\`\`\`js
+```js
 var a = 10
 function change() {
   a = 20
 }
 change()
 console.log(a) //20
-\`\`\`
+```
 
 ## 二、let
 
@@ -62,86 +62,86 @@ console.log(a) //20
 
 用法类似于\`var\`，但是所声明的变量，只在\`let\`命令所在的代码块内有效
 
-\`\`\`js
+```js
 {
   let a = 10
 }
 
 console.log(a) //ReferenceError: a is not defined
-\`\`\`
+```
 
 不存在变量提升
 
-\`\`\`js
+```js
 console.log(a) //ReferenceError: Cannot access 'a' before initialization
 let a = 2
-\`\`\`
+```
 
 这表述在声明变量它之前，变量\`a\`是不存在的，这时如果用到它，就会抛出一个错误。
 
 只要块作用域存在\`let\`命令，这个区域就不再受外部影响。
 
-\`\`\`js
+```js
 var a = 123
 if (true) {
   a = 'abc' //ReferenceError: Cannot access 'a' before initialization
   let a
 }
-\`\`\`
+```
 
 使用\`let\`声明变量前，该变量都不可用，也就是大家常说的“暂时性死区”。
 
 最后，\`let\`不允许在相同作用域中重复声明。
 
-\`\`\`js
+```js
 let a = 10
 let a = 20
 //SyntaxError: Identifier 'a' has already been declared
-\`\`\`
+```
 
 注意的是相同作用域，下面这些情况是不会报错的
 
-\`\`\`js
+```js
 let a = 10
 {
   let a = 10
 }
-\`\`\`
+```
 
 因此，我们不能在函数内部重新声明参数
 
-\`\`\`js
+```js
 function fn(args) {
   let args
 }
 fn() //SyntaxError: Identifier 'args' has already been declared
-\`\`\`
+```
 
 ## 三、const
 
 \`const\`声明一个只读变量，一旦声明，常量的值就不能改变。
 
-\`\`\`js
+```js
 const a = 1
 a = 10 //TypeError: Assignment to constant variable.
-\`\`\`
+```
 
 这意味着，\`const\`一旦声明变量，就必须立即初始化，不能留到以后赋值。
 
-\`\`\`js
+```js
 const a;
 //SyntaxError: Missing initializer in const declaration
-\`\`\`
+```
 
 如果之前用\`var\`或者\`let\`声明过的变量，再用\`const\`声明同样会报错。
 
-\`\`\`js
+```js
 var a = 1
 let b = 2
 const a = 10
 const b = 20
 //都会报错
-\`\`\`
+```
 
 \`const\`实际上保护的不是变量的值不得改动，而是变量指向的那个内存地址所保存的数据不得改动。
 
@@ -149,7 +149,7 @@ const b = 20
 
 对于复杂类型的数据，变量指向的内存地址，保存的只是一个指向实际数据的指针，\`const\`保存只能保证这个指针是固定的，并不能确保变量的结构不变。
 
-\`\`\`js
+```js
 const obj = {}
 
 //为obj添加属性，可以成功
@@ -159,7 +159,7 @@ obj.prop //123
 //将obj指向另一个对象，就会报错
 
 obj = {} //TypeError: Assignment to constant variable.
-\`\`\`
+```
 
 其他情况，\`const\`和\`let\`一致
 
@@ -180,7 +180,7 @@ obj = {} //TypeError: Assignment to constant variable.
 
 \`let\`和\`const\`不存在变量提升，即它们所声明的变量一定要在声明后使用，否则报错。
 
-\`\`\`js
+```js
 //var
 console.log(a) //undefined
 var a = 1
@@ -192,7 +192,7 @@ let b = 2
 //const
 console.log(c) //ReferenceError: Cannot access 'c' before initialization
 const c = 3
-\`\`\`
+```
 
 ### 暂时性死区
 
@@ -200,13 +200,13 @@ const c = 3
 
 \`let\`和\`const\`存在暂时性死区，只有等声明变量的那一行代码出现，才可以获取和使用该变量
 
-\`\`\`js
+```js
 var a = 123
 if (true) {
   a = 'abc' //ReferenceError: Cannot access 'a' before initialization
   let a
 }
-\`\`\`
+```
 
 ### 块级作用域
 
@@ -214,7 +214,7 @@ if (true) {
 
 \`let\`和\`const\`存在块级作用域
 
-\`\`\`js
+```js
 // var
 {
   var a = 20
@@ -232,7 +232,7 @@ console.log(b) // Uncaught ReferenceError: b is not defined
   const c = 20
 }
 console.log(c) // Uncaught ReferenceError: c is not defined
-\`\`\`
+```
 
 ### 重复声明
 
@@ -240,7 +240,7 @@ console.log(c) // Uncaught ReferenceError: c is not defined
 
 \`let\`和\`const\`在同一作用域不允许重复声明变量
 
-\`\`\`js
+```js
 // var
 var a = 10
 var a = 20 // 20
@@ -252,7 +252,7 @@ let b = 20 // Identifier 'b' has already been declared
 // const
 const c = 10
 const c = 20 // Identifier 'c' has already been declared
-\`\`\`
+```
 
 ### 修改声明的变量
 
@@ -260,7 +260,7 @@ const c = 20 // Identifier 'c' has already been declared
 
 \`const\`声明一个只读的常量。一旦声明，常量的值就不能改变。
 
-\`\`\`js
+```js
 // var
 var a = 10
 a = 20
@@ -275,7 +275,7 @@ console.log(b) // 20
 const c = 10
 c = 20
 console.log(c) // Uncaught TypeError: Assignment to constant variable
-\`\`\`
+```
 
 ### 使用
 

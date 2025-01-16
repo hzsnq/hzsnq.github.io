@@ -10,7 +10,7 @@
 
 一段代码来解释
 
-\`\`\`
+```
 #!/bin/bash
 # metaprogram
 echo '#!/bin/bash' >program
@@ -18,7 +18,7 @@ for ((I=1; I<=1024; I++)) do
     echo "echo $I" >>program
 done
 chmod +x program
-\`\`\`
+```
 
 这段程序每执行一次能帮我们生成一个名为\`program\`的文件，文件内容为1024行\`echo\`，如果我们手动来写1024行代码，效率显然低微
 
@@ -30,9 +30,9 @@ chmod +x program
 
 \`Proxy\`为构造函数，用来生成\`Proxy\`实例
 
-\`\`\`js
+```js
 let proxy = new Proxy(target, handler)
-\`\`\`
+```
 
 ### 参数
 
@@ -74,7 +74,7 @@ let proxy = new Proxy(target, handler)
 
 \`get\`接受三个参数，依次为目标对象、属性名和\`proxy\`实例本身，最后一个参数可选
 
-\`\`\`js
+```js
 const person = {
   name: '张三'
 }
@@ -86,11 +86,11 @@ const proxy = new Proxy(person, {
 })
 
 proxy.name // "张三"
-\`\`\`
+```
 
 \`get\`能够对数组增删改查进行拦截，下面是试下你数组读取负数的索引
 
-\`\`\`js
+```js
 function createArray(...element) {
   let handler = {
     get(target, propKey, receiver) {
@@ -111,11 +111,11 @@ let arr = createArr('a', 'b', 'c')
 let arr2 = ['a', 'b', 'c']
 console.log(arr[-1], arr2[-1])
 //c undefined
-\`\`\`
+```
 
 注意：如果一个属性不可配置（configurable）且不可写（writable），则Proxy不能改该属性，否则会报错
 
-\`\`\`js
+```js
 const target = Object.defineProperties(
   {},
   {
@@ -137,7 +137,7 @@ const proxy = new Proxy(target, handler)
 
 proxy.foo
 //报错
-\`\`\`
+```
 
 ### set()
 
@@ -145,7 +145,7 @@ proxy.foo
 
 假定\`Person\`对象有一个\`age\`属性，该属性应该是一个不大于200的整数，那么可以使用\`Proxy\`保证\`age\`的属性值符合要求
 
-\`\`\`js
+```js
 let validator = {
   set: function (obj, prop, value) {
     if (prop === 'age') {
@@ -166,11 +166,11 @@ let person = new Proxy({}, validator)
 person.age = 100 //100
 person.age = 201 //报错
 person.age = 'a' //报错
-\`\`\`
+```
 
 如果目标对象自身的某个属性，不可写且不可配置，那么\`set\`方法将不起作用
 
-\`\`\`js
+```js
 const obj = {}
 Object.defineProperty(obj, 'foo', {
   value: 'bar',
@@ -187,11 +187,11 @@ const proxy = new Proxy(obj, handler)
 
 proxy.foo = 'baz'
 console.log(proxy.foo) //bar
-\`\`\`
+```
 
 注意严格模式下，\`set\`代理如果没有返回\`true\`,就会报错
 
-\`\`\`js
+```js
 'use strict'
 
 const handler = {
@@ -205,13 +205,13 @@ const handler = {
 const proxy = new Proxy({}, handler)
 
 proxy.foo = 'bar'
-\`\`\`
+```
 
 ### deleteProperty()
 
 \`deleteProperty\`方法用于拦截\`delete\`操作，如果这个方法抛出错误或者返回\`false\`，当前属性就无法被\`delete\`命令删除
 
-\`\`\`js
+```js
 const handler = {
   deleteProperty(target, key) {
     invariant(key, 'delete')
@@ -233,16 +233,16 @@ const target = {
 const proxy = new Proxy(target, handler)
 delete proxy._prop
 // Error: 无法删除私有属性
-\`\`\`
+```
 
 注意，目标对象自身的不可配置（configurable）的属性，不能被\`deleteProperty\`
 方法删除，否则报错
 
 ### 取消代理
 
-\`\`\`js
+```js
 Proxy.revocable(target, handler)
-\`\`\`
+```
 
 ## 三、使用场景
 
@@ -254,7 +254,7 @@ Proxy.revocable(target, handler)
 
 使用\`Proxy\`保障数据类型的准确性
 
-\`\`\`js
+```js
 let numericDataStore = {
   count: 0,
   amount: 1234,
@@ -274,11 +274,11 @@ numericDataStore.count = 'a'
 //报错
 numericDataStore.count = 100
 //100
-\`\`\`
+```
 
 声明了一个私有的\`apiKey\`,便于\`api\`这个对象内部的方法调用，但不希望从外部也能够访问\`api.apiKey\`
 
-\`\`\`js
+```js
 let api = {
   _apiKey: '1234567890',
   getUser: function () {},
@@ -307,7 +307,7 @@ console.log(api._apiKey)
 api._apiKey = '0987654321'
 
 //抛出自定义错误
-\`\`\`
+```
 
 还能通过使用\`Proxy\`实现观察者模式
 
@@ -315,7 +315,7 @@ api._apiKey = '0987654321'
 
 \`observable\`函数返回一个原始对象的\`Proxy\`代理，拦截赋值操作，触发充当观察者的各个函数
 
-\`\`\`js
+```js
 const queuedObservers = new Set()
 
 const observe = (fn) => queuedObservers.add(fn)
@@ -327,6 +327,6 @@ function set(target, key, value, receiver) {
   queuedObservers.forEach((observer) => observer())
   return result
 }
-\`\`\`
+```
 
 观察者函数都放进\`Set\`集合，当修改\`obj\`的值，在\`set\`函数中拦截，自动执行\`Set\`所有的观察者

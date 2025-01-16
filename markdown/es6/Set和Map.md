@@ -22,9 +22,9 @@
 
 \`Set\`本身是一个构造函数，用来生成\`Set\`数据结构
 
-\`\`\`js
+```js
 const s = new Set()
-\`\`\`
+```
 
 ### 增删改查
 
@@ -41,45 +41,45 @@ const s = new Set()
 
 当添加实例中已经存在的元素，\`Set\`不会进行处理添加
 
-\`\`\`js
+```js
 const s = new Set()
 s.add(1).add(2).add(2)
 // Set(2) { 1, 2 }
 //2只被添加了一次
-\`\`\`
+```
 
 #### delete()
 
 删除某个值，返回一个布尔值，表示删除成功是否成功
 
-\`\`\`js
+```js
 const s = new Set()
 s.add(1).add(2).add(2)
 s.delete(1)
 //Set(1) { 2 }
-\`\`\`
+```
 
 #### has()
 
 返回一个布尔值，判断该值是否为\`Set\`的成员
 
-\`\`\`js
+```js
 const s = new Set()
 s.add(1).add(2).add(2)
 s.has(1)
 //true
-\`\`\`
+```
 
 #### cleat()
 
 清除所以成员，没有返回值
 
-\`\`\`js
+```js
 const s = new Set()
 s.add(1).add(2).add(2)
 s.clear()
 //Set(0) {}
-\`\`\`
+```
 
 ### 遍历
 
@@ -94,7 +94,7 @@ s.clear()
 
 \`keys\`方法、\`values\`方法、\`entries\`方法返回的都是遍历器对象
 
-\`\`\`js
+```js
 const set = new Set(['red', 'green', 'blue'])
 
 const setKeys = set.keys()
@@ -121,11 +121,11 @@ for (let [index, item] of setEntries) {
 // [ 'red', 'red' ]
 // [ 'green', 'green' ]
 // [ 'blue', 'blue' ]
-\`\`\`
+```
 
 \`forEach()\`用于对每个成员执行某种操作，没有返回值，键值，键名都相等，同样的\`forEach\`方法有第二参数，用于绑定处理函数的\`this\`
 
-\`\`\`js
+```js
 const set = new Set([1, 2, 3])
 
 set.forEach((value, key) => console.log(value, key))
@@ -133,11 +133,11 @@ set.forEach((value, key) => console.log(value, key))
 //1:1
 //2:2
 //3:3
-\`\`\`
+```
 
 扩展运算符和\`Set\`结构相结合实现数组或字符串去重
 
-\`\`\`js
+```js
 //数组
 let arr = [2, 3, 4, 5, 3, 4, 5]
 let unique = [...new Set(arr)]
@@ -147,11 +147,11 @@ let unique = [...new Set(arr)]
 let str = '23423456'
 let strUnique = [...new Set(str)].join('')
 //23456
-\`\`\`
+```
 
 实现交集、并集、差集
 
-\`\`\`js
+```js
 let a = new Set([1, 2, 3])
 let b = new Set([4, 2, 3])
 
@@ -166,7 +166,7 @@ let intersect = new Set([...a].filter((x) => b.has(x)))
 //差集
 let difference = new Set([...a].filter((x) => !b.has(x)))
 // Set(1) { 1 }
-\`\`\`
+```
 
 ## 二、Map
 
@@ -174,9 +174,9 @@ let difference = new Set([...a].filter((x) => !b.has(x)))
 
 \`Map\`本身是一个构造函数，用来生成\`Map\`数据结构
 
-\`\`\`js
+```js
 const m = new Map()
-\`\`\`
+```
 
 ### 增删改查
 
@@ -193,13 +193,13 @@ const m = new Map()
 
 \`size\`属性返回\`Map\`结构的成员总数
 
-\`\`\`js
+```js
 const m = new Map()
 map.set('foo', 1)
 map.set('bar', 2)
 
 m.size //2
-\`\`\`
+```
 
 #### set()
 
@@ -209,19 +209,19 @@ m.size //2
 
 同时返回的是当前\`Map\`对象，可以使用链式写法
 
-\`\`\`js
+```js
 const m = new Map()
 m.set('edition', 6) //键是字符串
 m.set(262, 'standard') //键是数值
 m.set(undefined, 'nah') //键是undefined
 m.set('a', 1).set('b', 2).set('c', 3) //链式操作
-\`\`\`
+```
 
 #### get()
 
 \`get\`方法读取\`key\`对应的键值，如果找不到\`key\`，则返回\`undefined\`
 
-\`\`\`js
+```js
 const m = new Map()
 
 const hello = function () {
@@ -231,13 +231,13 @@ const hello = function () {
 m.set(hello, 'hello es6')
 
 m.get(hello) //hello es6
-\`\`\`
+```
 
 #### has()
 
 \`has\`方法返回一个布尔值，表示某个键是否在当前\`Map\`对象之中
 
-\`\`\`js
+```js
 const m = new Map()
 m.set('edition', 6)
 m.set(262, 'standard')
@@ -247,13 +247,13 @@ m.has('edition') //true
 m.has('flex') //false
 m.has('262') //true
 m.has(undefined) //true
-\`\`\`
+```
 
 #### delete()
 
 \`delete\`方法删除某个键，返回\`true\`，如果删除失败，返回\`false\`
 
-\`\`\`js
+```js
 const m = new Map()
 
 m.set(undefined, 'nah')
@@ -261,13 +261,13 @@ m.has(undefined) //true
 
 m.delete(undefined)
 m.has(undefined) //false
-\`\`\`
+```
 
 #### clear()
 
 \`clear\`方法清除所有成员，没有返回值
 
-\`\`\`js
+```js
 let map = new Map()
 map.set('foo', 1)
 map.set('bar', 2)
@@ -275,7 +275,7 @@ map.set('bar', 2)
 map.size // 2
 map.clear()
 map.size // 0
-\`\`\`
+```
 
 ### 遍历
 
@@ -288,7 +288,7 @@ map.size // 0
 
 遍历顺序就是插入顺序
 
-\`\`\`js
+```js
 const map = new Map([
     ['f':'no'],
     ['n':'yes']
@@ -324,7 +324,7 @@ for (let [index, item] of map) {
 map.forEach(function(value,key,map){
     console.log("key: %s,value: %s",key,value)
 })
-\`\`\`
+```
 
 ## 三、WeakSet和WeakMap
 
@@ -332,20 +332,20 @@ map.forEach(function(value,key,map){
 
 创建\`WeakSet\`实例
 
-\`\`\`js
+```js
 const ws = new WeakSet()
-\`\`\`
+```
 
 \`WeakSet\`可以接受一个具有\`Iterable\`接口的对象作为参数
 
-\`\`\`js
+```js
 const a = [
   [1, 2],
   [3, 4]
 ]
 const ws = new WeakSet(a)
 //WeakSet {[1, 2], [3, 4]}
-\`\`\`
+```
 
 在API中\`WeakSet\`与\`Set\`有两个区别：
 
@@ -354,7 +354,7 @@ const ws = new WeakSet(a)
 
 \`WeakSet\`中的成员只能是引用类型，而不是其他类型的值
 
-\`\`\`js
+```js
 let ws = new WeakSet([1, 2])
 console.log(ws)
 //报错 TypeError: Invalid value used in weak set
@@ -365,7 +365,7 @@ let obj2 = { name: 2 }
 let ws2 = new WeakSet([obj1, obj2])
 console.log(ws2)
 //WeakSet {{…}, {…}}
-\`\`\`
+```
 
 \`WeakSet\`里面的引用只要在外部消失，它在\`WeakSet\`里面的引用就会消失
 
@@ -378,7 +378,7 @@ console.log(ws2)
 - 没有遍历操作的\`API\`
 - 没有\`clear\`清空方法
 
-\`\`\`js
+```js
 //WeakMap 可以使用set方法添加成员
 
 const wm = new WeakMap()
@@ -392,11 +392,11 @@ const k1 = [1, 2, 3];
 const k2 = [4, 5, 6];
 const wm2 = new WeakMap([[k1, 'foo'], [k2, 'bar']]);
 wm2.get(k2) // "bar"
-\`\`\`
+```
 
 \`WeakMap\`只接受对象作为键名（\`null\`除外），不接受其他类型的值作为键名
 
-\`\`\`js
+```js
 const map = new WeakMap()
 map.set(1, 2)
 //TypeError: Invalid value used as weak map key
@@ -404,27 +404,27 @@ map.set(Symbol(), 2)
 //TypeError: Invalid value used as weak map key
 map.set(null, 2)
 //TypeError: Invalid value used as weak map key
-\`\`\`
+```
 
 \`WeakMap\`的键名所指向的对象，一旦不再需要，里面的键名对象和所对应的键值对会自动消失，不用手动删除引用
 
 举个例子：
 在网页的dom元素上添加数据，就可以使用\`WeakMap\`结构，当该元素dom元素被清除，其所对应的\`WeakMap\`记录就会自动被移除
 
-\`\`\`js
+```js
 const wm = new WeakMap()
 
 const element = document.getElementById('example')
 
 wm.set(element, 'some information')
 wm.get(element) //"some information"
-\`\`\`
+```
 
 注意：\`WeakMap\`弱引用的只是键名，而不是键值。键值依然是正常引用
 
 下面代码中，键值\`obj\`会在\`WeakMap\`产生新的引用，当你修改\`obj\`不会影响到内部
 
-\`\`\`js
+```js
 const wm = new WeakMap()
 let key = {}
 let obj = { a: 1 }
@@ -432,4 +432,4 @@ wm.set(key, obj)
 obj = null
 wm.get(key)
 //{a: 1}
-\`\`\`
+```

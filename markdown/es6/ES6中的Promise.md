@@ -6,7 +6,7 @@
 
 在以往我们处理多层异步操作，我们往往会像下面那样编写我们的代码
 
-\`\`\`js
+```js
 doSomeThing(function (result) {
   doSomethingElse(
     result,
@@ -22,13 +22,13 @@ doSomeThing(function (result) {
     failureCallback
   )
 }, failureCallback)
-\`\`\`
+```
 
 阅读上面的代码，是不是很难受，上述形成了经典的回调地狱
 
 现在通过\`Promise\`的改写上面的代码
 
-\`\`\`js
+```js
 doSomeThing()
   .then(function (result) {
     return doSomethingElse(result)
@@ -40,7 +40,7 @@ doSomeThing()
     console.log('得到最终结果：' + finalResult)
   })
   .catch(failureCallback)
-\`\`\`
+```
 
 瞬间感受到了\`promise\`解决异步操作的优点：
 
@@ -72,9 +72,9 @@ doSomeThing()
 
 \`Promise\`对象是一个构造函数，用来生成\`Promise\`实例
 
-\`\`\`js
+```js
 const promise = new Promise(function (resolve, rejected) {})
-\`\`\`
+```
 
 \`Promise\`构造函数接受一个参数作为参数，该函数的两个参数分别是\`resolve\`和\`rejected\`
 
@@ -95,7 +95,7 @@ const promise = new Promise(function (resolve, rejected) {})
 
 \`then\`方法返回的是一个新的\`Promise\`实例，也就是\`Promise\`能链式书写的原因
 
-\`\`\`js
+```js
 getJSON('/posts.json')
   .then(function (json) {
     return json.post
@@ -103,13 +103,13 @@ getJSON('/posts.json')
   .then(function (post) {
     // ...
   })
-\`\`\`
+```
 
 #### catch()
 
 \`catch\`方法是\`.then(null,refection)\`或\`.then(undefined,rejection)\`的别名，用于指定发生错误时的回调函数。
 
-\`\`\`js
+```js
 getJSON('/posts.json')
   .then(function (json) {
     return json.post
@@ -118,11 +118,11 @@ getJSON('/posts.json')
     // 处理 getJSON 和 前一个回调函数运行时发生的错误
     console.log('发生错误！', error)
   })
-\`\`\`
+```
 
 \`Promise\`对象的错误具有“冒泡”性质，会一直向后传递，知道被捕获为止
 
-\`\`\`js
+```js
 getJSON('/posts.json')
   .then(function (json) {
     return getJSON(post.commentURL)
@@ -133,20 +133,20 @@ getJSON('/posts.json')
   .catch(function (error) {
     // 处理前三个promise产生的多雾
   })
-\`\`\`
+```
 
 一般来说，使用\`catch\`方法代替\`then()\`第二个参数
 
 \`Promise\`对象抛出的错误不会传递到外层代码，即不会有任何反应
 
-\`\`\`js
+```js
 const someAsyncThing = function () {
   return new Promise(function (resolve, rejected) {
     //x没有定义，会报错
     resolve(x + 2)
   })
 }
-\`\`\`
+```
 
 浏览器运行到这一行，会打印出错误提示\`ReferenceError：x is not defined\`，但是不会退出进程
 
@@ -156,12 +156,12 @@ const someAsyncThing = function () {
 
 \`finally()\`方法用于指定不管\`Promise\`对象最后状态如何，都会执行的操作
 
-\`\`\`js
+```js
 Promise
 .then(result=>{...})
 .catch(error=>{...})
 .finally(()=>{...})
-\`\`\`
+```
 
 ### 构造函数方法
 
@@ -177,9 +177,9 @@ Promise
 
 \`Promise.all()\`方法用于将多个\`Promise\`实例，包装成一个新的\`Promise\`实例
 
-\`\`\`js
+```js
 const p = Promise.all([p1, p2, p3])
-\`\`\`
+```
 
 接收一个数组（迭代对象）作为参数，数组成员都应为\`Promise\`实例
 
@@ -190,7 +190,7 @@ const p = Promise.all([p1, p2, p3])
 
 注意，如果作为参数的\`Promise\`实例，自己定义了\`catch\`方法，那么它一旦被\`rejected\`，并不会触发\`Promise.all()\`的\`catch\`方法
 
-\`\`\`js
+```js
 const p1 = new Promise((resolve, reject) => {
   resolve('hello')
 })
@@ -215,11 +215,11 @@ Promise.all([p1, p2, p3])
   .catch((e) => console.log(e))
 
 // ["hello","es6", Error: 报错了]
-\`\`\`
+```
 
 如果\`p1\`、\`p2\`、\`p3\`没有自己的\`catch\`方法，就会调用\`Promise.all()\`的\`catch\`方法
 
-\`\`\`js
+```js
 const p1 = new Promise((resolve, reject) => {
   resolve('hello')
 }).then((result) => result)
@@ -238,21 +238,21 @@ Promise.all([p1, p2, p3])
   .then((result) => console.log(result))
   .catch((e) => console.log(e))
 // Error:报错了
-\`\`\`
+```
 
 #### race()
 
 \`Promise.race()\`方法同样是将多个\`Promise\`实例，包装成一个新的\`Promise\`实例
 
-\`\`\`js
+```js
 const p = Promise.race([p1, p2, p3])
-\`\`\`
+```
 
 只要\`p1\`、\`p2\`、\`p3\`之中有一个实例率先改变状态，\`p\`的状态就跟着改变
 
 率先改变的就是\`Promise\`实例的返回值则传递给\`p\`的回调函数
 
-\`\`\`js
+```js
 const p1 = new Promise((resolve, reject) => {
   setTimeout(() => {
     resolve('hello')
@@ -272,7 +272,7 @@ const p = Promise.race([p1, p2])
 
 p.then((result) => console.log(result)).catch((error) => console.log(error))
 // hello
-\`\`\`
+```
 
 #### allSettled()
 
@@ -280,7 +280,7 @@ p.then((result) => console.log(result)).catch((error) => console.log(error))
 
 只有等到所有这些参数实例都返回结果，不管是fulfilled还是rejected，包装实例才会结束
 
-\`\`\`js
+```js
 const p1 = new Promise((resolve, reject) => {
   setTimeout(() => {
     resolve('hello')
@@ -299,17 +299,17 @@ const p2 = new Promise((resolve, reject) => {
 
 await Promise.allSettled([p1, p2])
 fn()
-\`\`\`
+```
 
 #### resolve()
 
 将现有对象转为\`Promise\`对象
 
-\`\`\`js
+```js
 Promise.resolve('foo')
 //等价于
 new Promise((resolve) => resolve('foo'))
-\`\`\`
+```
 
 参数可以分成四种情况，分别如下：
 
@@ -322,7 +322,7 @@ new Promise((resolve) => resolve('foo'))
 
 \`Promise.reject()\`方法也会返回一个新的\`Promise\`实例，该实例的状态为\`rejected\`
 
-\`\`\`js
+```js
 const p = Promise.reject('出错了')
 //等同于
 const p = new Promise((resolve，reject) => reject('出错了'))
@@ -332,22 +332,22 @@ p.catch(err=>{
 })
 
 //出错了
-\`\`\`
+```
 
 \`Promise.reject()\`方法的参数，会原封不动地变成后续方法的参数
 
-\`\`\`js
+```js
 Promise.reject('出错了').catch((e) => {
   console.log(e === '出错了')
 })
 //true
-\`\`\`
+```
 
 ## 三、使用场景
 
 将图片的加载写成一个Promise，一旦加载完成，Promise的状态就发生变化
 
-\`\`\`js
+```js
 const preloadImage = function (path) {
   return new Promise(function (resolve, reject) {
     const image = new Image()
@@ -356,11 +356,11 @@ const preloadImage = function (path) {
     image.src = path
   })
 }
-\`\`\`
+```
 
 通过链式操作，将多个渲染数据分别给各then，让其各司其职。或当下个异步请求依赖上个请求结果的时候，我们也能够通过链式操作友好解决问题
 
-\`\`\`js
+```js
 //各司其职
 getInfo()
   .then((result) => {
@@ -378,11 +378,11 @@ getInfo()
     //渲染分类列表
     return result
   })
-\`\`\`
+```
 
 通过 all() 实现多个请求合并在一起，汇总所有请求结果，只需设置一个loading即可
 
-\`\`\`js
+```js
 function initLoad() {
   Promise.all([getBannerList(), getStoreList(), getCategoryList()])
     .then((res) => {
@@ -396,11 +396,11 @@ function initLoad() {
 }
 
 initLoad()
-\`\`\`
+```
 
 通过race可以设置图片请求超时
 
-\`\`\`js
+```js
 //请求某个图片资源
 
 function requestImg(){
@@ -427,4 +427,4 @@ function timeout(){
 Promise.race([requestImg(),timeout()])
 .then(res=>console.log(result))
 .catch(err=>console.log(err))
-\`\`\`
+```

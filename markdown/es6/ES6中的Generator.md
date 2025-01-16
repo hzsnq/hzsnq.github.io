@@ -18,19 +18,19 @@
 - \`function\` 关键字与函数名之间有一个\`*\`
 - 函数体内部使用\`yield\`表达式，定义不同的内部状态
 
-\`\`\`js
+```js
 function* helloGenerator() {
   yield 'hello'
   yield 'generator'
   return 'end'
 }
-\`\`\`
+```
 
 ## 二、使用
 
 \`Generator\`函数会返回一个遍历器对象，即具有\`Symbol.iterator\`属性，并且返回给自己
 
-\`\`\`js
+```js
 function* get() {
   //some code
 }
@@ -39,11 +39,11 @@ const g = get()
 
 g[Symbol.iterator]() === g
 //true
-\`\`\`
+```
 
 通过\`yield\`关键字可以暂停\`generator\`函数返回的遍历器对象的状态
 
-\`\`\`js
+```js
 function* helloGenerator() {
   yield 'hello'
   yield 'generator'
@@ -51,7 +51,7 @@ function* helloGenerator() {
 }
 
 const hg = helloGenerator()
-\`\`\`
+```
 
 上述存在三个状态：\`hello\`、\`generator\`、\`return\`
 
@@ -62,7 +62,7 @@ const hg = helloGenerator()
 - 如果没有再遇到新的\`yield\`表达式，就一直运行到函数结束，直到\`return\`语句为止，并将\`return\`语句后面表达式的值，作为返回的对象的\`value\`属性值。
 - 如果该函数没有\`return\`语句，则返回的对象的\`value\`属性值为\`undefined\`
 
-\`\`\`js
+```js
 hg.next()
 // { value: 'hello', done: false }
 hg.next()
@@ -71,7 +71,7 @@ hg.next()
 // { value: 'end', done: true }
 hg.next()
 // { value: 'undefined', done: true }
-\`\`\`
+```
 
 \`done\`用来判断是否存在下个状态，\`value\`对应状态值
 
@@ -79,7 +79,7 @@ hg.next()
 
 通过调用\`next\`方法可以带一个参数，该参数就会被当作上一个\`yield\`表达式的返回值
 
-\`\`\`js
+```js
 function* foo(x) {
   const y = 2 * (yield x + 1)
   const z = yield y / 3
@@ -95,11 +95,11 @@ const b = foo(6)
 b.next() //{ value: 6, done: false }
 b.next(12) //{ value: 8, done: false }
 b.next(13) //{ value: 42, done: false }
-\`\`\`
+```
 
 正因为\`Generator\`函数返回\`Iterator\`对象，因此我们还可以通过\`for...of\`进行遍历
 
-\`\`\`js
+```js
 function* foo() {
   yield 1
   yield 2
@@ -114,11 +114,11 @@ for (let v of fooLength) {
   console.log(v)
 }
 //1 2 3 4 5
-\`\`\`
+```
 
 原生对象没有遍历接口，通过\`Generator\`函数为它加上这个接口，就能使用\`for...of\`进行遍历了
 
-\`\`\`js
+```js
 function* objectEntries(obj) {
   let propKeys = Reflect.ownKeys(obj)
 
@@ -137,7 +137,7 @@ for (let [key, value] of objEn) {
 
 // first jane
 // last done
-\`\`\`
+```
 
 ## 三、异步解决方案
 
@@ -154,12 +154,12 @@ for (let [key, value] of objEn) {
 
 所谓回调函数，就是把任务的第二段单独写在一个函数里面，等到重新执行这个任务的时候，再调用这个函数
 
-\`\`\`js
+```js
 fs.readFile('/etc/passwd', 'utf-8', function (err, data) {
   if (err) throw err
   console.log(data)
 })
-\`\`\`
+```
 
 \`readFile\`函数的第三个参数，就是回调函数，等到操作系统返回了\`/etc/passwd\`这个文件以后，回调函数才会执行
 
@@ -167,7 +167,7 @@ fs.readFile('/etc/passwd', 'utf-8', function (err, data) {
 
 \`Promise\`就是为了解决回调地狱而产生的，将回调函数的嵌套，改成链式调用
 
-\`\`\`js
+```js
 const fs = require('fs')
 
 const readFile = function (fileName) {
@@ -187,7 +187,7 @@ readFile('/etc/fstab')
   .then((data) => {
     console.log(data)
   })
-\`\`\`
+```
 
 这种链式操作形式，使异步任务的两端执行更清楚了，但是也存在了很明显的问题，代码变得冗杂，语义化并不强
 
@@ -195,7 +195,7 @@ readFile('/etc/fstab')
 
 \`yield\`表达式可以暂停函数执行，\`next\`方法用于恢复函数执行，这使得\`Generator\`函数非常适合将异步任务同步化
 
-\`\`\`js
+```js
 const gen = function* () {
   const f1 = yield readFile('/etc/fstab')
   const f2 = yield readFile('/etc/shells')
@@ -203,13 +203,13 @@ const gen = function* () {
   console.log(f1.toString())
   console.log(f2.toString())
 }
-\`\`\`
+```
 
 ### async/await
 
 将上面\`Generator\`函数改造成\`async/await\`形式，更为简洁，语义化更强了
 
-\`\`\`js
+```js
 const asyncReading = async function () {
   const f1 = await readFile('/etc/fstab')
   const f2 = await readFile('/etc/shells')
@@ -217,7 +217,7 @@ const asyncReading = async function () {
   console.log(f1.toString())
   console.log(f2.toString())
 }
-\`\`\`
+```
 
 ### 区别
 
@@ -234,7 +234,7 @@ const asyncReading = async function () {
 
 \`Generator\`是异步解决的一种方案，最大特点是将异步操作同步化表达出来
 
-\`\`\`js
+```js
 function* loadUI() {
   showLoadingScreen()
   yield loadUIDataAsync()
@@ -247,11 +247,11 @@ loader.next()
 
 //卸载UI
 loader.next()
-\`\`\`
+```
 
 包括\`redux-saga\`中间件也充分利用了\`Generator\`特性
 
-\`\`\`js
+```js
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import Api from '...'
 
@@ -273,11 +273,11 @@ function* mySaga() {
 }
 
 export default mySaga
-\`\`\`
+```
 
 还能利用\`Generator\`函数，在对象上实现\`Iterator\`接口
 
-\`\`\`js
+```js
 function* iterEntries(obj) {
   let keys = Object.keys(obj)
 
@@ -294,4 +294,4 @@ for (let [key, value] of iterEntries(mObj)) {
 
 // foo 3
 // bar 7
-\`\`\`
+```

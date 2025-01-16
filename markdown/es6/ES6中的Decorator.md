@@ -10,30 +10,30 @@
 
 这里定义一个士兵，这时候他什么装备也没有
 
-\`\`\`js
+```js
 class Soldier {}
-\`\`\`
+```
 
 定义一个得到AK装备的函数，即装饰器
 
-\`\`\`js
+```js
 function strong(target) {
   target.AK = true
 }
-\`\`\`
+```
 
 使用该装饰器对士兵进行增强
 
-\`\`\`js
+```js
 @strong
 class Soldier {}
-\`\`\`
+```
 
 这时候士兵就有武器了
 
-\`\`\`js
+```js
 soldier.AK //true
-\`\`\`
+```
 
 上述代码虽然简单，但也能够清晰看到了使用\`Decorator\`两大有点：
 
@@ -53,7 +53,7 @@ soldier.AK //true
 
 将装饰器行为进行分解，大家能够有个更深的理解
 
-\`\`\`js
+```js
 @decorator
 class A {}
 
@@ -61,11 +61,11 @@ class A {}
 
 class A {}
 A = decorator(A) || A
-\`\`\`
+```
 
 下面\`@testable\`就是一个装饰器，\`target\`就是传入的类，即\`MyTestableClass\`,实现了为类添加静态属性
 
-\`\`\`js
+```js
 @testable
 class MyTestableClass {
   //...
@@ -76,11 +76,11 @@ function testable(target) {
 }
 
 MyTestableClass.isTestable //true
-\`\`\`
+```
 
 如果想要传递参数，可以在装饰器外层再封装一层函数
 
-\`\`\`js
+```js
 function testable(isTestable) {
   return function (target) {
     target.isTestable = isTestable
@@ -94,7 +94,7 @@ MyTestableClass.isTestable //true
 @testable(false)
 class MyTestableClass {}
 MyTestableClass.isTestable //false
-\`\`\`
+```
 
 ### 类属性的装饰
 
@@ -106,33 +106,33 @@ MyTestableClass.isTestable //false
 
 首先定义一个\`readonly\`装饰器
 
-\`\`\`js
+```js
 function readonly(target, name, descriptor) {
   descriptor.writable = false //将可写属性设为false
   return descriptor
 }
-\`\`\`
+```
 
 使用\`readonly\`装饰类的\`name\`方法
 
-\`\`\`js
+```js
 class Person {
   @readonly
   name() {
     return \`${this.first} ${this.last}\`
   }
 }
-\`\`\`
+```
 
 相当于以下调用
 
-\`\`\`js
+```js
 readonly(Person.prototype, 'name', descriptor)
-\`\`\`
+```
 
 如果一个方法有多个装饰器，就像洋葱一样，先从外到内进入，再由内到外执行
 
-\`\`\`js
+```js
 function dec(id) {
   console.log('evaluated', id)
   return (target, prototype, descriptor) => {
@@ -150,7 +150,7 @@ class Example {
 // evaluated 2
 // executed 2
 // executed 1
-\`\`\`
+```
 
 外层装饰器\`@dec(1)\`先进入，但是内层装饰器\`@dec(2)\`先执行
 
@@ -158,7 +158,7 @@ class Example {
 
 装饰器不能用于修饰函数，因为函数存在变量声明情况
 
-\`\`\`js
+```js
 var counter = 0;
 
 var add = function(){
@@ -169,11 +169,11 @@ var add = function(){
 function foo(){
 
 }
-\`\`\`
+```
 
 编译阶段，变成下面
 
-\`\`\`js
+```js
 var counter;
 var add;
 
@@ -187,7 +187,7 @@ counter = 0
 add = function(){
   counter++
 }
-\`\`\`
+```
 
 意图是执行后\`counter\`等于一，但是实际上结果是\`counter\`等于0
 
@@ -197,22 +197,22 @@ add = function(){
 
 使用\`react-redux\`的时候，如果写成下面这种形式，即不雅观也很麻烦
 
-\`\`\`js
+```js
 class MyReactComponent extends React.Component {}
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyReactComponent)
-\`\`\`
+```
 
 通过装饰器就变得简洁多了
 
-\`\`\`js
+```js
 @connect(mapStateToProps, mapDispatchToProps)
 export default class MyReactComponent extends React.Component {}
-\`\`\`
+```
 
 将\`mixins\`，也可以写成装饰器，让使用更为简洁了
 
-\`\`\`js
+```js
 function mixins(...list) {
   return function (target) {
     Object.assign(target.prototype, ...list)
@@ -231,13 +231,13 @@ class MyClass {}
 let obj = new MyClass()
 
 obj.foo() //“foo”
-\`\`\`
+```
 
 ### @autobind
 
 \`autobind\`装饰器使得方法中的\`this\`对象，绑定原始对象
 
-\`\`\`js
+```js
 import { autobind } from 'core-decorators'
 
 class Person {
@@ -253,13 +253,13 @@ let getPerson = person.getPerson
 
 console.log(getPerson() === person)
 // true
-\`\`\`
+```
 
 ### @readonly
 
 \`readonly\`装饰器使得属性或方法不可写
 
-\`\`\`js
+```js
 import { readonly } from 'core-decorators'
 
 class Meal {
@@ -270,13 +270,13 @@ class Meal {
 var dinner = new Meal()
 dinner.entree = 'salmon'
 // Cannot assign to read only property 'entree' of [object Object]
-\`\`\`
+```
 
 ### @deprecate
 
 \`deprecate\`或\`deprecated\`装饰器在控制台显示一条警告，表示该方法将废除
 
-\`\`\`js
+```js
 import { deprecate } from 'core-decorators'
 
 class Person {
@@ -294,4 +294,4 @@ person.facepalm()
 
 person.facepalmHard()
 // DEPRECATION Person#facepalmHard: 功能废除了
-\`\`\`
+```

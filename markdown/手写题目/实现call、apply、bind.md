@@ -2,7 +2,7 @@
 
 ## 实现一个call
 
-\`\`\`js
+```js
 Function.prototype.myCall = function (content, ...args) {
   if (!content || content === null) {
     content = window
@@ -14,11 +14,11 @@ Function.prototype.myCall = function (content, ...args) {
 
   return content[key](...args)
 }
-\`\`\`
+```
 
 ## 实现一个apply
 
-\`\`\`js
+```js
 Function.prototype.myApply = function (content, args) {
   if (!content || content === null) {
     content = window
@@ -29,11 +29,11 @@ Function.prototype.myApply = function (content, args) {
 
   return content[key](...args)
 }
-\`\`\`
+```
 
 ## 实现一个bind
 
-\`\`\`js
+```js
 Function.prototype.myBind = function (content, args) {
   if (!content || content === null) {
     content = window
@@ -45,4 +45,4 @@ Function.prototype.myBind = function (content, args) {
 
   let _this = this
 }
-\`\`\`
+```
