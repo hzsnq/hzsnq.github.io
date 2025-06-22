@@ -1,1 +1,0 @@
-import{N as t,O as n}from"./index-5c3c44fe.js";const e=t({id:"investment",state:()=>({investmentInfo:{}}),actions:{setInvestmentInfo(t){this.investmentInfo=t}}});function s(){return e(n)}export{s as u};

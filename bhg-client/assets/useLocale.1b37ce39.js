@@ -1,1 +1,0 @@
-import{af as a,ag as n,ah as o}from"./index-5c3c44fe.js";function e(){var e;const{t:t}=a(),r=null==(e=n())?void 0:e.appContext.config.globalProperties;return{t:t,handleLanguageChange:a=>{r.$i18n.locale=a,o(a)}}}export{e as u};

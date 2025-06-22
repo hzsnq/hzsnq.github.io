@@ -1,1 +1,0 @@
-import{_ as s}from"./NavBar.c3c1f6a6.js";import{d as a,r as o,b as r,c as t,n,g as e,u}from"./index-5c3c44fe.js";import{u as c}from"./useLocale.1b37ce39.js";const i=a({__name:"change",setup(a){c();const i=o({isNotification:!0,backgroundColor:"#fff",isBack:!0});return(a,o)=>{const c=s;return r(),t(c,n(e(u(i))),null,16)}}});export{i as default};
